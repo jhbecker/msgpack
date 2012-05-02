@@ -36,13 +36,13 @@ inline type::nil& operator>> (object o, type::nil& v)
 }
 
 template <typename Stream>
-inline packer<Stream>& operator<< (packer<Stream>& o, const type::nil& v)
+inline packer<Stream>& operator<< (packer<Stream>& o, const type::nil& /* v */)
 {
 	o.pack_nil();
 	return o;
 }
 
-inline void operator<< (object& o, type::nil v)
+inline void operator<< (object& o, type::nil /* v */)
 {
 	o.type = type::NIL;
 }
