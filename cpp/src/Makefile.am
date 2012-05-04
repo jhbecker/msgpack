@@ -63,6 +63,7 @@ nobase_include_HEADERS += \
 		msgpack/object.hpp \
 		msgpack/zone.hpp \
 		msgpack/type.hpp \
+		msgpack/auto_ptr.hpp \
 		msgpack/type/bool.hpp \
 		msgpack/type/deque.hpp \
 		msgpack/type/float.hpp \
