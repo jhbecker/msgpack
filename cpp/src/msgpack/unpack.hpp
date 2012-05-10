@@ -20,6 +20,7 @@
 
 #include "unpack.h"
 #include "object.hpp"
+#include "auto_ptr.hpp"
 #include "zone.hpp"
 #include <memory>
 #include <stdexcept>
@@ -42,7 +43,7 @@ class unpacked {
 public:
 	unpacked() { }
 
-	unpacked(object obj, std::auto_ptr<msgpack::zone> z) :
+	unpacked(object obj, msgpack::auto_ptr<msgpack::zone> z) :
 		m_obj(obj), m_zone(z) { }
 
 	object& get()
@@ -51,15 +52,15 @@ public:
 	const object& get() const
 		{ return m_obj; }
 
-	std::auto_ptr<msgpack::zone>& zone()
+	msgpack::auto_ptr<msgpack::zone>& zone()
 		{ return m_zone; }
 
-	const std::auto_ptr<msgpack::zone>& zone() const
+	const msgpack::auto_ptr<msgpack::zone>& zone() const
 		{ return m_zone; }
 
 private:
 	object m_obj;
-	std::auto_ptr<msgpack::zone> m_zone;
+	msgpack::auto_ptr<msgpack::zone> m_zone;
 };
 
 
@@ -106,7 +107,7 @@ public:
 	//     while(pac.next(&result)) {
 	//         // do some with the object with the zone.
 	//         msgpack::object obj = result.get();
-	//         std::auto_ptr<msgpack:zone> z = result.zone();
+	//         msgpack::auto_ptr<msgpack:zone> z = result.zone();
 	//         on_message(obj, z);
 	//
 	//         //// boost::shared_ptr is also usable:
@@ -307,7 +308,7 @@ inline void unpack(unpacked* result,
 		const char* data, size_t len, size_t* offset)
 {
 	msgpack::object obj;
-	std::auto_ptr<msgpack::zone> z(new zone());
+	msgpack::auto_ptr<msgpack::zone> z(new zone());
 
 	unpack_return ret = (unpack_return)msgpack_unpack(
 			data, len, offset, z.get(),

@@ -19,6 +19,7 @@
 #define MSGPACK_ZONE_HPP__
 
 #include "zone.h"
+#include "auto_ptr.hpp"
 #include <cstdlib>
 #include <memory>
 #include <vector>
@@ -39,7 +40,7 @@ public:
 	void push_finalizer(void (*func)(void*), void* data);
 
 	template <typename T>
-	void push_finalizer(std::auto_ptr<T> obj);
+	void push_finalizer(msgpack::auto_ptr<T> obj);
 
 	void clear();
 
@@ -100,7 +101,7 @@ inline void zone::push_finalizer(void (*func)(void*), void* data)
 }
 
 template <typename T>
-inline void zone::push_finalizer(std::auto_ptr<T> obj)
+inline void zone::push_finalizer(msgpack::auto_ptr<T> obj)
 {
 	if(!msgpack_zone_push_finalizer(this, &zone::object_destructor<T>, obj.get())) {
 		throw std::bad_alloc();
